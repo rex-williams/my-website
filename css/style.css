@@ -1,0 +1,97 @@
+img.lw, dt img, dd img, p img, li img, h1 img, h2 img, h3 img, h4 img, dt img, td img, button img {
+	max-height: 1em;
+	max-width: 1em;
+	vertical-align: middle ;
+}
+
+head {
+	margin-left: auto;
+	margin-right: auto;
+	color: red;
+	font-size: x-large;
+	text-shadow: -4px 0 darkred, -4px -4px darkred, 0 -4px darkred;
+	text-align: center;
+}
+
+body {
+	background-color: #000000;
+	color: #ffffff;
+	font-family: sans-serif;
+}
+
+h1 {
+	text-align: center;
+	color: #ff0000;
+}
+
+a {
+	color: #ff0000;
+}
+
+p {
+	color: #ffffff;
+}
+
+a:hover {
+	color: #770000;
+}
+
+dt {
+	color: #ff0000;
+}
+
+.sidenav a:hover {
+  color: #770000;
+}
+
+main {
+	margin: auto;
+	max-width: 800px;
+}
+
+img {
+	max-width: 100%;
+}
+
+footer {
+	text-align: center;
+	clear: both;
+}
+
+.sidenav {
+  height: 100%;
+  width: 150px;
+  position: fixed;
+  border-style: solid;
+  border-color: #ff0000;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #0000000;
+  overflow-x: hidden;
+  padding-top: 15px;
+}
+
+.sidenav a {
+  /* text-decoration: none; */
+  color: #ff0000;
+  display: block;
+  float:center ;
+  font-size: 15px;
+  text-align: center;
+  padding: 0px 0px 5px 0px;
+}
+
+.sidenav a:hover {
+  color: #770000;
+}
+
+.main {
+  margin-left: 160px; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
