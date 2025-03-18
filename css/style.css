@@ -1,5 +1,5 @@
 body, html {
-    background-image: url('/pix/bg.png');
+    background-image: url('../pix/bg.png');
     background-repeat: repeat;
     font: Sans-Serif;
     align: center;
