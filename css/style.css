@@ -11,7 +11,6 @@ body, html {
     background-color: #000000;
     text-align: center;
     color: #ff0000;
-    padding: 20px;
     margin: 20px auto 20px auto; /* top right bottom left */
     display: inline-block;
     padding: 20px;
@@ -24,6 +23,7 @@ body, html {
     width: 310px;
     text-align: center; 
     align: center;
+    margin: auto;
 }
 
 h1 {
