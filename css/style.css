@@ -2,6 +2,8 @@ body, html {
     background-color: #000000;
     background-image: url('../pix/bg.png');
     background-repeat: repeat;
+    height: 100%;
+    overflow: auto;
     font: Sans-Serif;
     align: center;
     text-align: center;
