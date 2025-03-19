@@ -1,4 +1,5 @@
 body, html {
+    background-color: #000000;
     background-image: url('../pix/bg.png');
     background-repeat: repeat;
     font: Sans-Serif;
