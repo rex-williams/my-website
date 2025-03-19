@@ -3,10 +3,11 @@ body, html {
     background-image: url('../pix/bg.png');
     background-repeat: repeat;
     height: 100%;
-    overflow: auto;
     font: Sans-Serif;
     align: center;
     text-align: center;
+    margin: 0;
+    overflow: auto;
 }
 
 .content {
@@ -22,6 +23,7 @@ body, html {
 
 .song {
     border-style: solid;
+    padding: 5px;
     width: 310px;
     text-align: center; 
     align: center;
