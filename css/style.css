@@ -29,6 +29,7 @@ body, html {
     background-color: #000000;
     color: #ff0000;
     padding: 20px;
+    text-align: center;
     border: 5px solid #ff0000;
     width: 850px;
     min-height: 80%;
