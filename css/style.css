@@ -1,7 +1,6 @@
 body, html {
     background-color: #000000;
-    background-image: url('../pix/bg.png');
-    background-repeat: repeat;
+    color: #ff0000;
     height: 100%;
     font: Sans-Serif;
     text-align: center;
@@ -30,19 +29,9 @@ body, html {
     color: #ff0000;
     padding: 20px;
     text-align: center;
-    border: 5px solid #ff0000;
     width: 850px;
     min-height: 80%;
     margin: 0 auto;
-}
-
-h1 {
-    padding: 20px;
-    border-style: solid;
-    border-width: 5px;
-    display: inline-block;
-    background-color: #000000;
-    color: #ff0000;
 }
 
 a, hr {color: #ff0000;}
