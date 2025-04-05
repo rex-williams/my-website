@@ -16,11 +16,8 @@ body, html {
 }
 
 .song {
-    border-style: solid;
-    padding: 5px;
     width: 310px;
     text-align: center; 
-    align: left;
     margin: auto;
 }
 
@@ -36,4 +33,4 @@ body, html {
 
 a, hr {color: #ff0000;}
 a:hover {color: #990000;}
-img { border: 5px solid #ff0000; }
+img { border: 2px solid #ff0000; }
