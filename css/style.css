@@ -8,22 +8,6 @@ body, html {
     overflow: auto;
 }
 
-.box {
-    background-color: #000000;
-    color: #ff0000;
-    padding: 20px;
-    border: 5px solid #ff0000;
-}
-
-.song {
-    border-style: solid;
-    padding: 5px;
-    width: 310px;
-    text-align: center; 
-    align: left;
-    margin: auto;
-}
-
 h1, h2, h3, h4, a, hr {color: #ff0000;}
 a:hover {color: #990000;}
 img { border: 5px solid #ff0000; }
