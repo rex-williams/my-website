@@ -9,6 +9,6 @@ body, html {
     overflow: auto;
 }
 
-h1, h2, h3, h4, a, hr {color: #ff0000;}
-a:hover {color: #990000;}
-img { border: 5px solid #ff0000; }
+h1, h2, h3, h4, a, hr {color: #ffffff;}
+a:hover {color: #999999;}
+img { border: 5px solid #ffffff; }
