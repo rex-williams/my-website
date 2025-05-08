@@ -1,14 +1,19 @@
-body, html {
+body {
     background-color: #000000;
-    color: #ffffff;
-    height: 100%;
-    font: Sans-Serif;
-    font-size: 100%;
+    color: #c0c0c0;
+    font-family: Monospace;
+    font-size: 18px;
     text-align: center;
-    margin: 0;
-    overflow: auto;
+}
+
+#block {
+    border: 5px solid #c0c0c0;
+    text-align: left;
+    display: inline-block;
+    max-width: 60%;
+    padding: 25px;
 }
 
 h1, h2, h3, h4, a, hr {color: #ffffff;}
-a:hover {color: #999999;}
-img { border: 5px solid #ffffff; }
+a:hover {color: #c0c0c0;}
+img { border: 5px solid #c0c0c0; }

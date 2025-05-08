@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <title>About me/Internet Diary</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <meta name="description" content="">
+        <link rel="stylesheet" type="text/css" href="../css/style.css">
+    </head>
+    <body>
+        <h1>KISS Linux</h1>
+        <main>
+            <h2>Table of Contents</h2>
+            <div style="display: inline-block; text-align: left;">
+                <ul>
+                    <li><a href="#before-you-begin">Before you begin...</a></li>
+                    <li><a href="#choosing-between-kiss-and-gkiss">Choosing between KISS and GKISS</a></li>
+                    <li><a href="#partitioning-and-mounting">Partitioning and Mounting</a>
+                        <ul>
+                            <li><a href="#downloading-the-tarball">Downloading the Tarball</a></li>
+                            <li><a href="#extracting-the-tarball">Extracting the Tarball</a></li>
+                            <li><a href="#generating-the-fstab">Generating the fstab</a></li>
+                            <li><a href="#changing-root">Changing root</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#package-configuration">Package Configuration</a>
+                        <ul>
+                            <li><a href="#build-configuration">Build Configuration</a></li>
+                            <li><a href="#updating-and-rebuilding">Updating and rebuilding</a></li>
+                            <li><a href="#installing-necessary-packages">Installing necessary packages</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#kernel-configuration">Kernel Configuration</a></li>
+                    <li><a href="#users-and-passwords">Users and passwords</a></li>
+                    <li><a href="#bootloader-configuration">Bootloader configuration</a></li>
+                    <li><a href="#further-reading">Further Reading</a></li>
+                </ul>
+            </div>
+            <p><a href="https://web.archive.org/web/20240224161022/https://kisslinux.org/">KISS Linux</a> is a Linux distribution that uses the <strong>kiss</strong> package manager, a simple extensible shell script. KISS Linux is source-based, meaning packages are downloaded and built from source rather than prebuilt.</p>
+            <p>KISS Linux is <strong>community maintained.</strong> It was originally developed by <a href="https://github.com/dylanaraps">Dylan Araps</a> who left the project on December 13th, 2021. The repositories and the kiss package manager have since been maintained by <a href="https://kisscommunity.org/">kiss-community</a>, which hosts the repositories on <a href="https://codeberg.org/kiss-community">Codeberg.</a></p>
+            <h2 id="before-you-begin">Before you begin...</h2>
+            <p><strong>Source-based distributions can be installed from any other distribution.</strong> Flash a separate (optionally graphical) Linux image on a CD/DVD/USB and follow the commands below to install KISS. Some good images to use are <a href="linuxmint.com">Linux Mint</a> and <a href="https://artixlinux.org">Artix Linux.</a></p>
+            <h2 id="choosing-between-kiss-and-gkiss">Choosing between KISS and GKISS</h2>
+            <p><em>Throughout this tutorial, different repository links will be provided depending on whether you wish to install KISS or GKISS Linux.</em></p>
+            <p>KISS is maintained in two different forms: with musl or with glibc. In short, <a href="https://www.gnu.org/software/libc/">glibc</a> is the more "compatible" of the two because of its age. For example, some drivers only function on glibc. Regular KISS Linux uses <a href="https://musl.libc.org/">musl</a> instead, which is newer and might not be as compatible..</p>
+            <h2 id="partitioning-and-mounting">Partitioning and Mounting</h2>
+            <p>Before installing the system, partition your drive. This guide will assume you're installing to "/dev/sda1".</p>
+            <p>For instance this is how the drive is formated for me.</p>
+            <div id="block">
+                <p>sda<br>
+                ├─sda1 1M MBR<br>
+                ├─sda2 1G /boot<br>
+                ├─sda3 8G [SWAP]<br>
+                ├─sda4 50G /</p>
+            </div>
+            <p>Note: Mount all of these to /mnt</p>
+            <h3 id="downloading-the-tarball">Downloading the Tarball</h3>
+            <p>Download the latest tarball:</p>
+            <div id="block">
+                <p># Repository to use. Pick "" for KISS, "g" for GKISS.<br>
+                prefix=""<br>
+                <br>
+                # Get version information<br>
+                baseurl="https://codeberg.org/kiss-community/${prefix}repo/releases"<br>
+                ver=$(basename "$(curl -w "%{url_effective}\n" -I -L -s -S $baseurl/latest -o /dev/null)")<br>
+                file=${prefix}kiss-chroot-$ver.tar.xz<br>
+                url="$baseurl/download/$ver/$file"<br>
+                <br>
+                # Download the tarball<br>
+                curl -fLO "$url"</p>
+            </div>
+            <h3 id="extracting-the-tarball">Extracting the Tarball</h3>
+            <p>Extract the tarball to /mnt:</p>
+            <div id="block">
+                <p>tar xvf $file -C /mnt</p>
+            </div>
+            <h3 id="generating-the-fstab">Generating the fstab</h3>
+            <p>Use genfstab to generate the /etc/fstab:</p>
+            <div id="block">
+                <p>git clone https://github.com/glacion/genfstab<br>
+                cd genfstab<br>
+                ./genfstab /mnt &gt; /mnt/etc/fstab<br></p>
+            </div>
+            <p>Note: Check the /mnt/etc/fstab.</p>
+            <h3 id="changing-root">Changing root</h3>
+            <p>KISS comes with a chroot script kiss-chroot.</p>
+            <div id="block">
+                <p>/mnt/bin/kiss-chroot /mnt</p>
+            </div>
+            <h2 id="package-configuration">Package Configuration</h2>
+            <p>Repos should be stored in /var/db/kiss/. Clone the repos:</p>
+            <div id="block">
+                <p>git clone https://codeberg.org/kiss-community/repo /var/db/kiss/repo<br>
+                git clone https://codeberg.org/kiss-community/community /var/db/kiss/community</p>
+            </div>
+            <p>The KISS package manager only uses the repositories it finds in the KISS_PATH variable. To declare this variable on the system level, add it to /etc/profile:</p>
+            <div id="block">
+                <p>export KISS_PATH=''<br>
+                KISS_PATH=$KISS_PATH:/var/db/kiss/repo/core<br>
+                KISS_PATH=$KISS_PATH:/var/db/kiss/repo/extra<br>
+                KISS_PATH=$KISS_PATH:/var/db/kiss/repo/wayland<br>
+                KISS_PATH=$KISS_PATH:/var/db/kiss/community/community</p>
+            </div>
+            <p>For the changes to take effect, run:</p>
+            <div id="block">
+                <p>source /etc/profile</p>
+            </div>
+            <p>Check for the KISS_PATH variable:</p>
+            <div id="block">
+                <p>echo $KISS_PATH</p>
+            </div>
+            <h3 id="build-configuration">Build Configuration</h3>
+            <p>In addition to declaring variables for the package manager, /etc/profile should also contain the following to tune package compilation:</p>
+            <div id="block">
+                <p>export CFLAGS="-O3 -pipe -march=native"<br>
+                export CXXFLAGS="$CFLAGS"<br>
+                export MAKEFLAGS="-j$(nproc)"</p>
+            </div>
+            <p>As with all changes to /etc/profile, run the following to put the changes into effect:</p>
+            <div id="block">
+                <p>source /etc/profile</p>
+            </div>
+            <h3 id="updating-and-rebuilding">Updating and rebuilding</h3>
+            <p>Now update and rebuild the software:</p>
+            <div id="block">
+                <p>kiss update<br>
+                cd /var/db/kiss/installed && kiss build *</p>
+            </div>
+            <p>If you encounter any issues building packages, make sure your repositories are up to date. If the issues persist, do not hesitate to join the kiss-community IRC chat at #kisslinux on <a href="irc://irc.libera.chat">libera.chat.</a></p>
+            <h3 id="installing-necessary-packages">Installing necessary packages</h3>
+            <p>Some packages to consider:</p>
+            <div style="display: inline-block; text-align: left;">
+                <ul>
+                    <li>libelf – To build the Linux kernel.</li>
+                    <li>perl – (Optionally) to build the Linux kernel.</li>
+                    <li>ncurses – For the kernel menuconfig TUI.</li>
+                    <li>baseinit – The init system for KISS.</li>
+                    <li>grub – The recommended bootloader.</li>
+                    <li>e2fsprogs – For EXT4 filesystem support.</li>
+                    <li>dosfstools– For FAT filesystem support.</li>
+                    <li>dhcpcd – Needed to connect to a network (DHCP resolution tool).</li>
+                    <li>wpa_supplicant – For WiFi support.</li>
+                </ul>
+            </div>
+            <p>To install any package, run kiss b:</p>
+            <div id="block">
+                <p>kiss b libelf ncurses perl baseinit grub e2fsprogs dhcpcd</p>
+            </div>
+            <h2 id="kernel-configuration">Kernel Configuration</h2>
+            <p>KISS does not come with any kernel. So install it.</p>
+            <p>Begin by creating the /usr/src/ directory and entering it:</p>
+            <div id="block">
+                <p>mkdir -p /usr/src<br>
+                cd /usr/src</p>
+            </div>
+            <p>Download and extract the latest Linux kernel:</p>
+            <div id="block">
+                <p>curl -fLO "https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.14.5.tar.xz"<br>
+                tar xvf linux*.tar.xz</p>
+            </div>
+            <p>Note: Check <a href="https://kernel.org">kernel.org</a> for the latest version, i suggest one of the stable versions.</p>
+            <p>Now enter the directory and run make menuconfig:</p>
+            <div id="block">
+                <p>cd linux*/<br>
+                make menuconfig</p>
+            </div>
+            <p>This will open the config tui, where you can configure your kernel:</p>
+            <p>For tips on how to configure the kernel, check out the Gentoo wiki’s <a href="https://wiki.gentoo.org/wiki/Kernel/Gentoo_Kernel_Configuration_Guide">kernel configuration guide.</a></p>
+            <p>Once the kernel has been configured to your liking, compile and install it:</p>
+            <div id="block">
+                <p>make install</p>
+            </div>
+            <p>You can also install the kernel modules.</p>
+            <div id="block">
+                <p>make INSTALL_MOD_STRIP= 1 modules_install</p>
+            </div>
+            <p>Move the kernel in the /boot dir so that grub can see them:</p>
+            <div id="block">
+                <p>mv /boot/vmlinuz /boot/vmlinuz-6.14.5<br>
+                mv /boot/System.map /boot/System.map-6.14.5</p>
+            </div>
+            <h2 id="users-and-passwords">Users and passwords</h2>
+            <p>Set a password for root:</p>
+            <div id="block">
+                <p>passwd</p>
+            </div>
+            <p>Create a new user:</p>
+            <div id="block">
+                <p>
+                useradd -m -s /bin/sh rex
+                </p>
+            </div>
+            <h2 id="bootloader-configuration">Bootloader configuration</h2>
+            <p>Install grub:</p>
+            <div id="block">
+                <p>grub-install /dev/sda<br>
+                grub-mkconfig -o /boot/grub/grub.cfg</p>
+            </div>
+            <p>You should now be able to reboot and boot into KISS.</p>
+            <h2 id="further-reading">Further Reading</h2>
+            <div style="display: inline-block; text-align: left;">
+                <ul>
+                    <li>
+                        <p>For more knowledge on KISS Linux and how to use its software, consult the <a href="https://kisscommunity.org/">KISS Linux Community website.</a></p>
+                    </li>
+                    <li>
+                        <p>To discover more software on KISS, consider using the <a href="https://github.com/aabacchus/kiss-find">kiss find utility</a> or the <a href="https://jedahan.com/kiss-find/">kiss find website.</a></p>
+                    </li>
+                    <li>
+                        <p>To find more lists and repositories for KISS, consult the <a href="https://github.com/kiss-community/awesome-kiss">awesome-kiss repository</a> on GitHub.</p>
+                    </li>
+                </ul>
+            </div>
+        </main>
+    </body>
+</html>
