@@ -1,0 +1,19 @@
+body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: Monospace;
+    font-size: 18px;
+    text-align: center;
+}
+
+#block {
+    border: 5px solid #ffffff;
+    text-align: left;
+    display: inline-block;
+    max-width: 60%;
+    padding: 25px;
+}
+
+h1, h2, h3, h4, a, hr {color: #ffffff;}
+a:hover {color: #ffffff;}
+img { border: 5px solid #ffffff; }
